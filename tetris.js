@@ -35,16 +35,16 @@ function createPiece(type){
     }
     else if(type==='O'){
         return [
-            [1, 1],
-            [1, 1],
+            [2, 2],
+            [2, 2],
         ];
     }
     else if(type==='I'){
         return [
-            [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 1, 0, 0],
+            [0, 0, 3, 0, 0],
+            [0, 0, 3, 0, 0],
+            [0, 0, 3, 0, 0],
+            [0, 0, 3, 0, 0],
             [0, 0, 0, 0, 0],
         ];
     }
@@ -59,29 +59,29 @@ function createPiece(type){
     else if(type==='S'){
         return [
             [0, 0, 0],
-            [0, 1, 1],
-            [1, 1, 0],
+            [0, 4, 4],
+            [4, 4, 0],
         ];
     }
     else if(type==='Z'){
         return [
             [0, 0, 0],
-            [1, 1, 0],
-            [0, 1, 1],
+            [5, 5, 0],
+            [0, 5, 5],
         ];
     }
     else if(type==='L'){
         return [
-            [0, 1, 0],
-            [0, 1, 0],
-            [0, 1, 1],
+            [0, 6, 0],
+            [0, 6, 0],
+            [0, 6, 6],
         ];
     }
     else if(type=='J'){
         return [
-            [0, 1, 0],
-            [0 ,1, 0],
-            [1, 1, 0],
+            [0, 7, 0],
+            [0 ,7, 0],
+            [7, 7, 0],
         ];
     }
 }
@@ -90,7 +90,7 @@ function drawMatrix(matrix,offset) {
     matrix.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                context.fillStyle = 'red';
+                context.fillStyle = colors[value];
                 context.fillRect(x+offset.x,
                                  y+offset.y,
                                  1, 1);
@@ -99,6 +99,19 @@ function drawMatrix(matrix,offset) {
     });
 }
 
+function arenaSweep(){
+    outer: for(let y = arena.length -1; y>0; --y){
+        for(let x = 0; x< arena[y].length;++x){
+            if(arena[y][x]===0){
+                continue outer;
+            }  
+        }
+
+        const row = arena.splice(y,1)[0].fill(0);
+        arena.unshift(row);
+        ++y;
+    }
+}
 function merge(arena,player){
     player.matrix.forEach((row,y)=>{
         row.forEach((value,x)=>{
@@ -115,6 +128,7 @@ function playerDrop(){
         player.pos.y--;
         merge(arena,player);
         playerReset(); 
+        arenaSweep(); 
     }
     dropCounter = 0;
 }
@@ -174,6 +188,17 @@ function rotate(matrix,dir){
     }
     
 }
+
+const colors = [
+    null,
+    '#FF4136',
+    '#0074D9',
+    '#85144B',
+    '#01FF70',
+    '#B10DC9',
+    '#FF851B',
+    '#FFDC00',
+];
 
 const arena = createMatrix(12,20);
 

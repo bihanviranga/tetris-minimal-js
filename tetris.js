@@ -200,13 +200,13 @@ function rotate(matrix,dir){
 
 const colors = [
     null,
-    '#FF4136',
-    '#0074D9',
-    '#85144B',
-    '#01FF70',
+    '#FF4139',
+    '#0074D3',
+    '#85164B',
+    '#01FF80',
     '#B10DC9',
-    '#FF851B',
-    '#FFDC00',
+    '#FF841B',
+    '#FFDC01',
 ];
 
 const arena = createMatrix(12,20);
